@@ -12,6 +12,7 @@ const months = [
   'November',
   'December',
 ];
+
 const weekdays = [
   'Sunday',
   'Monday',
@@ -21,6 +22,7 @@ const weekdays = [
   'Friday',
   'Saturday',
 ];
+
 const giveaway = document.querySelector('.giveaway');
 const deadline = document.querySelector('.deadline');
 const items = document.querySelectorAll('.deadline-format h4');
@@ -31,41 +33,50 @@ let tempMonth = tempDate.getMonth();
 let tempDay = tempDate.getDate();
 // months are ZERO index based;
 const futureDate = new Date(tempYear, tempMonth, tempDay + 10, 11, 30, 0);
-
+// console.log(futureDate);
 // let futureDate = new Date(2020, 3, 24, 11, 30, 0);
 
 const year = futureDate.getFullYear();
+
 const hours = futureDate.getHours();
 const minutes = futureDate.getMinutes();
-
 let month = futureDate.getMonth();
 month = months[month];
+
 const weekday = weekdays[futureDate.getDay()];
+// console.log(weekday);
 const date = futureDate.getDate();
-giveaway.textContent = `giveaway ends on ${weekday}, ${date} ${month} ${year} ${hours}:${minutes}am`;
+giveaway.textContent = `giveaway ends on ${weekday}, ${date} ${month} ${year} at ${hours}:${minutes}am`;
 
 const futureTime = futureDate.getTime();
 function getRemaindingTime() {
   const today = new Date().getTime();
 
-  const t = futureTime - today;
+  const currentTime = futureTime - today;
+  // console.log(currentTime)
   // 1s = 1000ms
   // 1m = 60s
   // 1hr = 60m
   // 1d = 24hr
+
   // values in miliseconds
   const oneDay = 24 * 60 * 60 * 1000;
   const oneHour = 60 * 60 * 1000;
   const oneMinute = 60 * 1000;
+
   // calculate all values
-  let days = t / oneDay;
+  let days = currentTime / oneDay;
   days = Math.floor(days);
-  let hours = Math.floor((t % oneDay) / oneHour);
-  let minutes = Math.floor((t % oneHour) / oneMinute);
-  let seconds = Math.floor((t % oneMinute) / 1000);
+
+  let hours = Math.floor((currentTime % oneDay) / oneHour);
+
+  let minutes = Math.floor((currentTime % oneHour) / oneMinute);
+
+  let seconds = Math.floor((currentTime % oneMinute) / 1000);
 
   // set values array
   const values = [days, hours, minutes, seconds];
+  // console.log(values);
   function format(item) {
     if (item < 10) {
       return (item = `0${item}`);
@@ -75,14 +86,18 @@ function getRemaindingTime() {
 
   items.forEach(function (item, index) {
     item.innerHTML = format(values[index]);
+    // console.log(item);
   });
 
-  if (t < 0) {
+  if (currentTime < 0) {
     clearInterval(countdown);
-    deadline.innerHTML = `<h4 class="expired">sorry, this giveaway has expired!</h4>`;
+    deadline.innerHTML = `<h4 class="expired">sorry, this giveaway has expired! "<br/>" please check back soon.</h4>`;
   }
 }
+
 // countdown;
+// call the getRemaindingTime function every second (1000 milliseconds).
 let countdown = setInterval(getRemaindingTime, 1000);
+
 //set initial values
 getRemaindingTime();
