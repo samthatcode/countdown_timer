@@ -14,7 +14,7 @@ Variables
 :root {
   /* dark shades of primary color*/
   --clr-primary-1: #063251;
-  --clr-primary-2: #294e51;
+  --clr-primary-2: #063251;
   --clr-primary-3: #116b6b;
   --clr-primary-4: #2d87c8;
   /* primary/main color */
@@ -145,6 +145,12 @@ h4 {
   h4 {
     line-height: 1;
   }
+
+  .gift-info p {
+    color: var(--clr-grey-4);
+    /* text-align: justify; */
+  }
+  
 }
 /*  global classes */
 
@@ -202,6 +208,7 @@ Countdown Timer
 
 .gift-info p {
   color: var(--clr-grey-4);
+  /* text-align: justify; */
 }
 
 .date {
