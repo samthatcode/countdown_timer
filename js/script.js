@@ -49,7 +49,9 @@ const date = futureDate.getDate();
 giveaway.textContent = `giveaway ends on ${weekday}, ${date} ${month} ${year} at ${hours}:${minutes}am`;
 
 const futureTime = futureDate.getTime();
-function getRemaindingTime() {
+
+// calculates the remaining time until the future date and updates the HTML with the countdown values.
+function getCountdownTimer() {
   const today = new Date().getTime();
 
   const currentTime = futureTime - today;
@@ -77,6 +79,8 @@ function getRemaindingTime() {
   // set values array
   const values = [days, hours, minutes, seconds];
   // console.log(values);
+
+  // Helper function to ensure that single-digit values are displayed with a leading zero
   function format(item) {
     if (item < 10) {
       return (item = `0${item}`);
@@ -91,13 +95,19 @@ function getRemaindingTime() {
 
   if (currentTime < 0) {
     clearInterval(countdown);
-    deadline.innerHTML = `<h4 class="expired">sorry, this giveaway has expired! "<br/>" please check back soon.</h4>`;
+    const expiredMessage = document.querySelector('.expired-message');
+    deadline.innerHTML = `<h4 class="expired expired-message">Sorry, this giveaway has expired! <br/> Please check back soon.</h4>`;
+
+    expiredMessage.style.color = 'red';
+    expiredMessage.style.fontWeight = 'bold';
+    expiredMessage.textContent = expiredMessage.textContent.toUpperCase();
   }
+
 }
 
 // countdown;
-// call the getRemaindingTime function every second (1000 milliseconds).
-let countdown = setInterval(getRemaindingTime, 1000);
+// call the getCountdownTimer function every second (1000 milliseconds).
+let countdown = setInterval(getCountdownTimer, 1000);
 
 //set initial values
-getRemaindingTime();
+getCountdownTimer();
